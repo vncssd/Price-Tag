@@ -1,4 +1,4 @@
-## 🏷️ Price Tag CLI Generator
+## 🏷️ Gerador de Preços CLI
 
 Este é um projeto de uma aplicação **CLI (Command Line Interface)** simples desenvolvida em **Java** para gerar etiquetas de preço formatadas para diferentes tipos de produtos: **comum**, **usado**, ou **importado**.
 
