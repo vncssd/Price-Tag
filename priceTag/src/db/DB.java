@@ -4,14 +4,13 @@ import src.exceptions.DBException;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Properties;
 
 public class DB {
 
     private static Connection conn = null;
+    private static PreparedStatement stmt = null;
 
     public static Properties loadProperties(){
         try (FileInputStream fs = new FileInputStream("db.properties")){
@@ -30,6 +29,7 @@ public class DB {
         if(conn==null){
             try{
                 Properties props = loadProperties();
+                if (props == null) throw new DBException("properties = null");
                 String url = props.getProperty("dburl");
                 conn = DriverManager.getConnection(url, props);
             } catch (SQLException e) {
@@ -43,6 +43,16 @@ public class DB {
         if(conn != null){
             try{
                 conn.close();
+            } catch (SQLException e) {
+                throw new DBException(e.getMessage());
+            }
+        }
+    }
+
+    public static void closeStatement(){
+        if(conn != null){
+            try{
+                stmt.close();
             } catch (SQLException e) {
                 throw new DBException(e.getMessage());
             }
