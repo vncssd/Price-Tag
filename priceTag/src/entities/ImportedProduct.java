@@ -1,5 +1,7 @@
 package src.entities;
 
+import src.enums.ProductType;
+
 public class ImportedProduct extends Product {
     
     private Double customsFee;
@@ -8,8 +10,8 @@ public class ImportedProduct extends Product {
         super();
     }
 
-    public ImportedProduct(String name, Double price, double customsFee) {
-        super (name, price);
+    public ImportedProduct(String name, Double price, double customsFee, ProductType productType) {
+        super (name, price, productType);
         this.customsFee = customsFee;
     }
 

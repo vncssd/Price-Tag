@@ -1,5 +1,7 @@
 package src.entities;
 
+import src.enums.ProductType;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -13,8 +15,8 @@ public class UsedProduct extends Product {
         super();
     }
 
-    public UsedProduct(String name, Double price, Date manufactureDate) {
-        super (name, price);
+    public UsedProduct(String name, Double price, Date manufactureDate, ProductType productType) {
+        super  (name, price, productType);
         this.manufactureDate = manufactureDate;
     }
 

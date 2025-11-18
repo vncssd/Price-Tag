@@ -7,7 +7,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Date;
 
-import src.DateException;
+import src.enums.ProductType;
+import src.exceptions.DateException;
 import src.entities.Product;
 import src.entities.UsedProduct;
 import src.entities.ImportedProduct;
@@ -37,17 +38,18 @@ public class Program {
                 if (productType.equals("u")){
                     System.out.print("Manufacture date (DD/MM/YYYY): ");
                     Date manufactureDate = sdf.parse(sc.next());
-                    Product usedProduct = new UsedProduct(name, price, manufactureDate);
+                    Product usedProduct = new UsedProduct(name, price, manufactureDate, ProductType.USED);
+
                     products.add(usedProduct);
                 }
                 if (productType.equals("i")){
                     System.out.print("Customs fee: ");
                     double customsFee = sc.nextDouble();
-                    Product importedProduct = new ImportedProduct(name, price, customsFee);
+                    Product importedProduct = new ImportedProduct(name, price, customsFee, ProductType.IMPORTED);
                     products.add(importedProduct);
                 }
                 if (productType.equals("c")){
-                    Product commomProduct = new Product(name, price);
+                    Product commomProduct = new Product(name, price, ProductType.COMMOM);
                     products.add(commomProduct);
                 }
             }
