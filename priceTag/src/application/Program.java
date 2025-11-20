@@ -42,27 +42,37 @@ public class Program {
                 System.out.print("Name: ");
                 String name = sc.nextLine();
                 System.out.print("Price: ");
-                Double price = sc.nextDouble()/100;
+                Double price = sc.nextDouble();
                 if (productType.equals("u")){
                     stmt = conn.prepareStatement("INSERT INTO used_product (Name, Price, ManufactureDate) " +
-                            "+ VALUES (?,?,?)");
+                            "VALUES (?,?,?)");
                     System.out.print("Manufacture date (DD/MM/YYYY): ");
                     Date manufactureDate = sdf.parse(sc.next());
                     Product usedProduct = new UsedProduct(name, price, manufactureDate, ProductType.USED);
-
+                    long dateInMiliseconds = manufactureDate.getTime();
+                    java.sql.Date manufacutreDateSql = new java.sql.Date(dateInMiliseconds);
                     stmt.setString(1, name);
                     stmt.setDouble(2, price);
-                    stmt.setDate(3, (java.sql.Date) manufactureDate);
+                    stmt.setDate(3, manufacutreDateSql);
+                    stmt.executeUpdate();
                     products.add(usedProduct);
+
                 }
                 if (productType.equals("i")){
                     System.out.print("Customs fee: ");
                     double customsFee = sc.nextDouble();
                     Product importedProduct = new ImportedProduct(name, price, customsFee, ProductType.IMPORTED);
+
+
                     products.add(importedProduct);
                 }
                 if (productType.equals("c")){
                     Product commomProduct = new Product(name, price, ProductType.COMMOM);
+                    stmt = conn.prepareStatement("INSERT INTO commom_product (Name, Price) " +
+                            "+ VALUES (?,?)");
+
+                    stmt.setString(1, name);
+                    stmt.setDouble(2, price);
                     products.add(commomProduct);
                 }
             }
@@ -78,8 +88,8 @@ public class Program {
         }
 
         DB.closeConnection();
-        DB.closeStatement();
         sc.close();
+        DB.closeStatement();
     }
 
                 

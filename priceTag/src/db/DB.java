@@ -50,7 +50,7 @@ public class DB {
     }
 
     public static void closeStatement(){
-        if(conn != null){
+        if(stmt != null){
             try{
                 stmt.close();
             } catch (SQLException e) {
