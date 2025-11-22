@@ -17,6 +17,7 @@ import src.exceptions.DateException;
 import src.entities.Product;
 import src.entities.UsedProduct;
 import src.entities.ImportedProduct;
+import src.util.Utility;
 
 public class Program {
     public static void main(String[] args) {
@@ -35,83 +36,104 @@ public class Program {
             System.out.println("1 - Register a new product.");
             System.out.println("2 - Update a product");
             System.out.println("3 - Delete a product");
-            System.out.print("Enter the number of products: ");
-            int n = sc.nextInt();
+            System.out.println("4 - List all products");
 
-            int commomRowsAffected = 0;
-            int usedRowsAffected = 0;
-            int importedRowsAffected = 0;
-            try {
-                for (int i = 1; i <= n; i++) {
-                    sc.nextLine();
-                    System.out.println("Product #" + i + " data:");
-                    System.out.print("Common, used or imported (c/u/i)? ");
-                    String productType = sc.next();
-                    sc.nextLine();
-                    System.out.print("Name: ");
-                    String name = sc.nextLine();
-                    System.out.print("Price: ");
-                    Double price = sc.nextDouble();
-                    if (productType.equals("u")) {
-                        stmt = conn.prepareStatement("INSERT INTO used_product (Name, Price, ManufactureDate) " +
-                                "VALUES (?,?,?)");
-                        System.out.print("Manufacture date (DD/MM/YYYY): ");
-                        Date manufactureDate = sdf.parse(sc.next());
-                        Product usedProduct = new UsedProduct(name, price, manufactureDate, ProductType.USED);
-                        long dateInMiliseconds = manufactureDate.getTime();
-                        java.sql.Date manufacutreDateSql = new java.sql.Date(dateInMiliseconds);
-                        stmt.setString(1, name);
-                        stmt.setDouble(2, price);
-                        stmt.setDate(3, manufacutreDateSql);
-                        usedRowsAffected = stmt.executeUpdate();
-                        products.add(usedProduct);
+            int option = sc.nextInt();
+            if (option == 1) {
+                System.out.print("Enter the number of products: ");
+                int n = sc.nextInt();
 
+                int commomRowsAffected = 0;
+                int usedRowsAffected = 0;
+                int importedRowsAffected = 0;
+                try {
+                    for (int i = 1; i <= n; i++) {
+                        sc.nextLine();
+                        System.out.println("Product #" + i + " data:");
+                        System.out.print("Common, used or imported (c/u/i)? ");
+                        String productType = sc.next();
+                        sc.nextLine();
+                        System.out.print("Name: ");
+                        String name = sc.nextLine();
+                        System.out.print("Price: ");
+                        Double price = sc.nextDouble();
+                        if (productType.equals("u")) {
+                            stmt = conn.prepareStatement("INSERT INTO used_product (Name, Price, ManufactureDate) " +
+                                    "VALUES (?,?,?)");
+                            System.out.print("Manufacture date (DD/MM/YYYY): ");
+                            Date manufactureDate = sdf.parse(sc.next());
+                            Product usedProduct = new UsedProduct(name, price, manufactureDate, ProductType.USED);
+                            long dateInMiliseconds = manufactureDate.getTime();
+                            java.sql.Date manufacutreDateSql = new java.sql.Date(dateInMiliseconds);
+                            stmt.setString(1, name);
+                            stmt.setDouble(2, price);
+                            stmt.setDate(3, manufacutreDateSql);
+                            usedRowsAffected = stmt.executeUpdate();
+                            products.add(usedProduct);
+
+                        }
+                        if (productType.equals("i")) {
+                            System.out.print("Customs fee: ");
+                            double customsFee = sc.nextDouble();
+                            double importedProductTotalPrice = price + (price * customsFee / 100);
+                            Product importedProduct = new ImportedProduct(name, price, customsFee, ProductType.IMPORTED);
+                            stmt = conn.prepareStatement("INSERT INTO imported_product (Name, Price, CustomsFee) " +
+                                    "VALUES (?,?,?)");
+
+                            stmt.setString(1, name);
+                            stmt.setDouble(2, importedProductTotalPrice);
+                            stmt.setDouble(3, customsFee);
+                            importedRowsAffected = stmt.executeUpdate();
+
+                            products.add(importedProduct);
+                        }
+                        if (productType.equals("c")) {
+                            Product commomProduct = new Product(name, price, ProductType.COMMOM);
+                            stmt = conn.prepareStatement("INSERT INTO commom_product (Name, Price) " +
+                                    "VALUES (?,?)");
+
+                            stmt.setString(1, name);
+                            stmt.setDouble(2, price);
+                            commomRowsAffected = stmt.executeUpdate();
+                            products.add(commomProduct);
+                        }
                     }
-                    if (productType.equals("i")) {
-                        System.out.print("Customs fee: ");
-                        double customsFee = sc.nextDouble();
-                        double importedProductTotalPrice = price + (price*customsFee/100);
-                        Product importedProduct = new ImportedProduct(name, price, customsFee, ProductType.IMPORTED);
-                        stmt = conn.prepareStatement("INSERT INTO imported_product (Name, Price, CustomsFee) " +
-                                "VALUES (?,?,?)");
-
-                        stmt.setString(1, name);
-                        stmt.setDouble(2, importedProductTotalPrice);
-                        stmt.setDouble(3, customsFee);
-                        importedRowsAffected = stmt.executeUpdate();
-
-                        products.add(importedProduct);
-                    }
-                    if (productType.equals("c")) {
-                        Product commomProduct = new Product(name, price, ProductType.COMMOM);
-                        stmt = conn.prepareStatement("INSERT INTO commom_product (Name, Price) " +
-                                "VALUES (?,?)");
-
-                        stmt.setString(1, name);
-                        stmt.setDouble(2, price);
-                        commomRowsAffected = stmt.executeUpdate();
-                        products.add(commomProduct);
-                    }
+                } catch (ParseException e) {
+                    throw new DateException(e.getMessage());
+                } catch (SQLException e) {
+                    throw new DBException(e.getMessage());
                 }
-            } catch (ParseException e) {
-                throw new DateException(e.getMessage());
-            } catch (SQLException e) {
-                throw new DBException(e.getMessage());
+                System.out.println("NEW PRODUCTS ADDED: ");
+                System.out.println("COMMMOM PRODUCTS: " + commomRowsAffected);
+                System.out.println("USED PRODUCTS: " + usedRowsAffected);
+                System.out.println("IMPORTED PRODUCTS: " + importedRowsAffected);
+                System.out.println("");
+                for (Product p : products) {
+                    System.out.println(p);
+                }
             }
-            System.out.println("NEW PRODUCTS ADDED: ");
-            System.out.println("COMMMOM PRODUCTS: " + commomRowsAffected);
-            System.out.println("USED PRODUCTS: " + usedRowsAffected);
-            System.out.println("IMPORTED PRODUCTS: " + importedRowsAffected);
-            System.out.println("");
-            for (Product p : products) {
-                System.out.println(p);
+            if (option == 2){
+
+                System.out.println("");
+
+            }
+            if (option == 3){
+
+            }
+            if (option == 4){
+
+            }
+            if (option != 1 & option != 2 & option != 3){
+                Utility.clearScreen();
+                System.out.println("Invalid Option, Try Again! ");
+                continueAdding = false;
             }
 
             System.out.println("");
             System.out.println("1 - RETURN TO MENU ");
             System.out.println("2 - EXIT");
-            String option = sc.next();
-            if (option.equals("2")) {
+            option = sc.nextInt();
+            if (option == 2) {
                 continueAdding = false;
             }
         }
