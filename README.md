@@ -1,65 +1,42 @@
-## 🏷️ Gerador de Preços CLI
+## 🏷️ Price Tag Product CRUD CLI
 
-Este é um projeto de uma aplicação **CLI (Command Line Interface)** simples desenvolvida em **Java** para gerar etiquetas de preço formatadas para diferentes tipos de produtos: **comum**, **usado**, ou **importado**.
+Este é um projeto de uma aplicação **CLI (Command Line Interface)** robusta, desenvolvida em **Java Puro**, que implementa operações completas de **CRUD (Create, Read, Update, Delete)** para gerenciar diferentes tipos de produtos. Os dados são persistidos utilizando um banco de dados **MySQL**.
 
 ---
 
 ## ✨ Funcionalidades
 
-O CLI aceita comandos para gerar etiquetas com formatação e cálculos específicos, dependendo do tipo de produto.
+O CLI oferece uma interface de linha de comando para manipular totalmente o cadastro de produtos, diferenciando-os com base em suas características:
 
-* **Produto Comum:** Exibe apenas o **Nome** e o **Preço** do produto.
-* **Produto Usado:** Exibe o **Nome**, o **Preço** e a **Data de Fabricação** do produto.
-* **Produto Importado:** Exibe o **Nome**, o **Preço** (após o cálculo da taxa de alfândega), e a **Taxa de Alfândega** utilizada.
+* **Operações CRUD Completas:** O usuário é capaz de realizar todas as quatro operações fundamentais:
+    * **C**reate (Criar/Cadastrar novo produto)
+    * **R**ead (Consultar/Listar produtos existentes)
+    * **U**pdate (Atualizar dados de um produto)
+    * **D**elete (Excluir um produto do sistema)
+
+* **Persistência de Dados:** Todos os registros são armazenados e gerenciados em um banco de dados **MySQL**, garantindo a durabilidade e integridade dos dados.
+
+---
+
+## 📦 Tipos de Produtos e Regras de Negócio
+
+O sistema suporta e trata de maneira específica três categorias de produtos, aplicando regras de negócio distintas para cada uma:
+
+| Tipo de Produto | Dados Requeridos | Diferenciais/Regras de Negócio |
+| :--- | :--- | :--- |
+| **Comum** | Nome, Preço | Apenas exibe o Nome e Preço. |
+| **Usado** | Nome, Preço, Data de Fabricação | Requer a **Data de Fabricação** (ou compra) para fins de depreciação. |
+| **Importado** | Nome, Preço Original, Taxa de Alfândega | Requer uma **Taxa de Alfândega** (fornecida pelo usuário) para calcular o preço final de venda. |
 
 ---
 
 ## 🛠️ Tecnologias Utilizadas
 
-Este projeto foi desenvolvido utilizando puramente a linguagem:
+Este projeto foi desenvolvido utilizando o ecossistema padrão da linguagem:
 
 * **Java** (versão 8 ou superior)
-
----
-
-## 🚀 Como Executar
-
-### Pré-requisitos
-
-Certifique-se de ter o **Java Development Kit (JDK)** instalado em sua máquina.
-
-### Compilação e Execução
-
-1.  **Clone o repositório:**
-    ```bash
-    git clone https://github.com/vncssd/Price-Tag.git
-    cd [pasta-do-projeto]
-    ```
-
-2.  **Compile os arquivos Java:**
-    Se o seu arquivo principal for `PriceTagCLI.java` e estiver no diretório `src/`:
-    ```bash
-    javac src/*.java
-    ```
-
-3.  **Execute o programa:**
-    Assumindo que sua classe principal se chama `PriceTagCLI`:
-    ```bash
-    java -cp src PriceTagCLI
-    ```
-    *Obs: Os comandos exatos podem variar dependendo da estrutura de pastas e do nome da sua classe principal.*
-
----
-
-## 📝 Comandos de Exemplo (Uso)
-
-O CLI deverá interagir com o usuário solicitando os dados necessários. Embora a implementação exata do comando possa variar (seja por *flags* ou entrada interativa), a lógica de uso será a seguinte:
-
-| Tipo de Produto | Dados Necessários | Exemplo de Saída (Lógica) |
-| :--- | :--- | :--- |
-| **Comum** | Nome, Preço | Nome: TV, Preço: R$ 1500.00 |
-| **Usado** | Nome, Preço, Data de Fabricação | Nome: Cadeira Usada, Preço: R$ 80.00 (Data de Fabricação: 01/01/2022) |
-| **Importado** | Nome, Preço Original, Taxa de Alfândega (%) | Nome: Smartphone Importado, Preço (c/Taxa): R$ 3250.00 (Taxa: 15%) |
+* **JDBC** (Java Database Connectivity) para conexão e manipulação do MySQL.
+* **MySQL** (Banco de Dados Relacional)
 
 ---
 
