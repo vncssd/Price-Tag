@@ -16,6 +16,7 @@
 # Arquivos de Compilação/Binários (Exemplo Java/Maven/Gradle)
 /target/
 /build/
+/out/
 *.class
 *.jar
 *.war
@@ -29,5 +30,5 @@ Thumbs.db
 
 # Arquivos de banco de dados
 *.env
-/out/
+
 
