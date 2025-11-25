@@ -43,7 +43,7 @@ public class Product {
     }
 
     public String toString() {
-        return getName() + " $ " + String.format("%.2f",getPrice()*100);
+        return getName() + " $ " + String.format("%.2f",getPrice());
     }
 
 

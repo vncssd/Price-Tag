@@ -2,6 +2,7 @@ package src.application;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -18,6 +19,8 @@ import src.entities.Product;
 import src.entities.UsedProduct;
 import src.entities.ImportedProduct;
 import src.util.Utility;
+
+import javax.xml.transform.Result;
 
 public class Program {
     public static void main(String[] args) {
@@ -119,8 +122,26 @@ public class Program {
             }
             if (option == 3){
 
+                int commomRowsAffected = 0;
+                int usedRowsAffected = 0;
+                int importedRowsAffected = 0;
+
             }
             if (option == 4){
+
+                System.out.println("COMMOM PRODUCTS: ");
+                try{
+                    stmt = conn.prepareStatement("SELECT * FROM Product.commom_product");
+                    ResultSet rs = stmt.executeQuery();
+                    System.out.print(rs.next());
+                }
+                catch (SQLException e) {
+                    throw new DBException(e.getMessage());
+                }
+                System.out.println("USED PRODUCTS: ");
+                System.out.println("IMPORTED PRODUCTS: ");
+
+
 
             }
             if (option != 1 & option != 2 & option != 3){

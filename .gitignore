@@ -29,3 +29,6 @@ Thumbs.db
 
 # Arquivos de banco de dados
 *.env
+*.properties
+/out/
+
