@@ -36,13 +36,6 @@ public class Program {
 
         while (continueAdding) {
 
-            System.out.println("1 - Register a new product.");
-            System.out.println("2 - Update a product");
-            System.out.println("3 - Delete a product");
-            System.out.println("4 - List all products");
-
-            int option = sc.nextInt();
-            if (option == 1) {
                 System.out.print("Enter the number of products: ");
                 int n = sc.nextInt();
 
@@ -115,49 +108,14 @@ public class Program {
                     System.out.println(p);
                 }
             }
-            if (option == 2){
-
-                System.out.println("");
-
-            }
-            if (option == 3){
-
-                int commomRowsAffected = 0;
-                int usedRowsAffected = 0;
-                int importedRowsAffected = 0;
-
-            }
-            if (option == 4){
-
-                System.out.println("COMMOM PRODUCTS: ");
-                try{
-                    stmt = conn.prepareStatement("SELECT * FROM Product.commom_product");
-                    ResultSet rs = stmt.executeQuery();
-                    System.out.print(rs.next());
-                }
-                catch (SQLException e) {
-                    throw new DBException(e.getMessage());
-                }
-                System.out.println("USED PRODUCTS: ");
-                System.out.println("IMPORTED PRODUCTS: ");
-
-
-
-            }
-            if (option != 1 & option != 2 & option != 3){
-                Utility.clearScreen();
-                System.out.println("Invalid Option, Try Again! ");
-                continueAdding = false;
-            }
 
             System.out.println("");
             System.out.println("1 - RETURN TO MENU ");
             System.out.println("2 - EXIT");
-            option = sc.nextInt();
-            if (option == 2) {
+            String option = sc.next();
+            if (option.equals("2")) {
                 continueAdding = false;
             }
-        }
 
         System.out.print("PROGRAM FINISHED!");
         DB.closeConnection();
