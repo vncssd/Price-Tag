@@ -18,7 +18,6 @@ import src.exceptions.DateException;
 import src.entities.Product;
 import src.entities.UsedProduct;
 import src.entities.ImportedProduct;
-import src.util.Utility;
 
 import javax.xml.transform.Result;
 
