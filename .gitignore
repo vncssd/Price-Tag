@@ -17,6 +17,7 @@
 /target/
 /build/
 /out/
+out/production/Price-Tag-with-Java
 *.class
 *.jar
 *.war
