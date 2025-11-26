@@ -16,6 +16,8 @@
 # Arquivos de Compilação/Binários (Exemplo Java/Maven/Gradle)
 /target/
 /build/
+/out/
+out/production/Price-Tag-with-Java
 *.class
 *.jar
 *.war
@@ -29,5 +31,5 @@ Thumbs.db
 
 # Arquivos de banco de dados
 *.env
-/out/
+
 
